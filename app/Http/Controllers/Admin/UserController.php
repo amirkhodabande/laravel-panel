@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 
+
 class UserController extends Controller
 {
 
@@ -19,6 +20,12 @@ class UserController extends Controller
     {
         $users = User::search($request->all());;
         return view('admin/user/index', compact('users'));
+    }
+
+    public function edit(User $user)
+    {
+        $user_permissions = auth()->user()->getAllPermissions();
+        return view('admin.user.edit', compact('user', 'user_permissions'));
     }
 
     /**

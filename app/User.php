@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'confirm_token', 'user_type'
+        'name', 'email', 'password', 'confirm_token'
     ];
 
     /**
@@ -51,16 +51,17 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->user_type == 'boss' || $this->user_type == 'admin' || $this->user_type == 'reporter';
+        return true;
+        // return $this->user_type == 'boss' || $this->user_type == 'admin' || $this->user_type == 'reporter';
     }
 
     public static function search($data)
     {
-        $user = User::where('user_type', '!=', 'boss')->orderBy('user_type', 'asc');
+        // $user = User::where('id', '!=', 0)->orderBy('user_type', 'asc');
+        $user = User::orderBy('created_at', 'desc');
         if (sizeof($data) > 0) {
-            if (array_key_exists('name', $data) && array_key_exists('user_type', $data))
-                $user = $user->where('name', 'like', '%' . $data['name'] . '%')
-                    ->where('user_type', 'like', '%' . $data['user_type'] . '%');
+            if (array_key_exists('name', $data))
+                $user = $user->where('name', 'like', '%' . $data['name'] . '%');
         }
         $user = $user->paginate(8);
         return $user;

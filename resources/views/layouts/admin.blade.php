@@ -27,7 +27,7 @@
 <body>
 
     <div id="app">
-
+<vue-noty></vue-noty>
         <section id="container">
             <!--header start-->
             <header class="header white-bg">
@@ -121,8 +121,9 @@
             </section>
             <!--main content end-->
 
-    </div>
-    <script src="{{ asset('js/app.js') }}"></script>
+        </div>
+        <script src="{{ asset('js/app.js') }}"></script>
+
         <!-- js placed at the end of the document so the pages load faster -->
         <script src="{{ asset('admin/js/jquery.js') }}"></script>
         <script src="{{ asset('admin/js/bootstrap.min.js') }}"></script>
@@ -131,6 +132,5 @@
 
         <!--common script for all pages-->
         <script src="{{ asset('admin/js/common-scripts.js') }}"></script>
-
 </body>
 </html>

@@ -4,14 +4,14 @@
     <section class="table-responsive">
         <table class="table table-hover" >
             <tr>
-                <form class="form-horizontal tasi-form" >
+                <form class="form-horizontal tasi-form" action="/">
                     <section class="form-group">
                         <div class="col-sm-4">
                             <input type="text" name="name" class="form-control input-sm"
                                    placeholder="نام کاربر را جستجو کنید">
                         </div>
                         <div class="col-sm-2">
-                            <input type="submit" class="btn btn-info btn-sm" value="جستجو کنید">
+                            <button type="submit" class="btn btn-info btn-sm" >جستجو کنید</button>
                         </div>
                     </section>
                 </form>

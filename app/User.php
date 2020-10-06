@@ -49,16 +49,10 @@ class User extends Authenticatable
         $this->save();
     }
 
-    public function isAdmin()
-    {
-        return true;
-        // return $this->user_type == 'boss' || $this->user_type == 'admin' || $this->user_type == 'reporter';
-    }
-
     public static function search($data)
     {
         // $user = User::where('id', '!=', 0)->orderBy('user_type', 'asc');
-        $user = User::orderBy('created_at', 'desc');
+        $user = User::orderBy('id', 'desc');
         if (sizeof($data) > 0) {
             if (array_key_exists('name', $data))
                 $user = $user->where('name', 'like', '%' . $data['name'] . '%');

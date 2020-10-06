@@ -1,54 +1,78 @@
 <template>
     <div>
-
-<!-- Deleting permissions -->
-        <section class="panel">
-            <header class="panel-heading">حذف مجوز های کاربر</header>
-        </section>
-        <div class="users-containter">
-                <section v-for="per in userPermissions" :key="userPermissions.indexOf(per)"
-                     class="users-p">
-                    <button @click="hello"><i class="icon-remove"></i></button>
-                    <p>{{ per.name }}</p>
+        <!-- Deleting permissions -->
+                <section class="panel">
+                    <header class="panel-heading">حذف مجوز های کاربر</header>
                 </section>
-        </div>
-<!-- End -->
-<br><br>
-<!-- Adding permissions -->
-        <section class="panel">
-            <header class="panel-heading">اضافه کردن مجوز به کاربر</header>
-        </section>
-        <div class="users-containter">
-
-                <section class="users-p p-store">
-                    <button @click="hello"><i class="icon-hand-up"></i></button>
-                    <p>Amir hossein</p>
+                <div class="users-containter">
+                        <section v-for="per in userPermissions" :key="userPermissions.indexOf(per)"
+                            class="users-p">
+                            <button @click="removePermission(per.name, key)"><i class="icon-remove"></i></button>
+                            <p>{{ per.name }}</p>
+                        </section>
+                </div>
+        <!-- End -->
+        <br><br><br><br>
+        <!-- Adding permissions -->
+                <section class="panel">
+                    <header class="panel-heading">اضافه کردن مجوز به کاربر</header>
                 </section>
+                <div class="users-containter">
 
-        </div>
-<!-- End -->
+                        <section v-for="per in allPermissions" :key="allPermissions.indexOf(per)"
+                            class="users-p p-store">
+                            <button @click="addPermission(per, key)"><i class="icon-hand-up"></i></button>
+                            <p>{{ per.name }}</p>
+                        </section>
 
+                </div>
+        <!-- End -->
     </div>
 </template>
 
 <script>
 import axios from "axios";
 export default {
-      props: ["user_permissions"],
+      props: ["all_permissions", "user_permissions"],
       data() {
             return {
+                  allPermissions: JSON.parse(this.all_permissions),
                   userPermissions: JSON.parse(this.user_permissions),
             };
       },
 
       methods: {
-            hello() {
-                  axios.post(`/admin/permissions`, this.lesson)
+            removePermission(name, key) {
+                  //   axios.get(`/admin/permissions/${id}`);
+                  axios.delete(`/admin/permissions/${name}`)
                         .then((resp) => {
-                              console.log(resp);
+                              window.noty({
+                                    title: "تبریک",
+                                    text:
+                                          "شما با موفقیت یک دسترسی را حذف کردید.",
+                                    icon: "error",
+                                    button: "ادامه!",
+                              });
+                              location.reload();
                         })
                         .catch((error) => {
-                              console.log(error);
+                              window.handleErrors(error);
+                        });
+            },
+            addPermission(permission) {
+                  axios.post(`/admin/permissions`, permission)
+                        .then((resp) => {
+                              window.noty({
+                                    title: "تبریک",
+                                    text:
+                                          "شما با موفقیت یه دسترسی به کاربر اضافه کردین.",
+                                    icon: "success",
+                                    button: "ادامه!",
+                              });
+                              location.reload();
+                        })
+                        .catch((error) => {
+                              window.handleErrors(error);
                         });
             },
       },
@@ -70,7 +94,7 @@ export default {
       border-radius: 10px;
       background-image: linear-gradient(
             140deg,
-            rgb(161, 230, 255) 45%,
+            rgb(161, 230, 255) 30%,
             rgb(255, 191, 191) 65%
       );
       margin: 0 10px;
@@ -87,14 +111,27 @@ export default {
 .p-store {
       background-image: linear-gradient(
             140deg,
-            rgba(185, 192, 124, 0.603) 45%,
-            rgba(110, 187, 116, 0.692) 65%
+            rgb(161, 230, 255) 30%,
+            rgba(235, 202, 104, 0.671) 65%
       );
 }
 
 .users-p:hover {
       box-shadow: 0px 0px 13px rgb(97, 141, 158);
       text-shadow: 1px 1px 4px black;
+      background-image: linear-gradient(
+            140deg,
+            rgb(255, 191, 191) 30%,
+            rgb(161, 230, 255) 65%
+      );
+}
+
+.p-store:hover {
+      background-image: linear-gradient(
+            140deg,
+            rgba(235, 202, 104, 0.671) 30%,
+            rgb(161, 230, 255) 65%
+      );
 }
 
 .users-p > button {

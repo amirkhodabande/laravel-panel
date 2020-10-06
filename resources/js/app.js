@@ -5,9 +5,46 @@
  */
 
 
-// require('./bootstrap');
+require('./bootstrap');
 
 window.Vue = require('vue');
+
+window.events = new Vue()
+
+window.noty = function (notification) {
+    window.events.$emit('notification', notification)
+}
+
+window
+    .handleErrors = function (error) {
+        switch (error.response.status) {
+            case 422:
+                window.noty({
+                    title: "خطا",
+                    text: "لطفا در وارد نمودن اطلاعات دقت نمایید.",
+                    icon: "error",
+                    button: "ادامه!",
+                });
+                break;
+            case 404:
+                window.noty({
+                    title: "خطا",
+                    text: "صفحه مورد نظر یافت نشد, لطفا دوباره امتحان کنید",
+                    icon: "error",
+                    button: "ادامه!",
+                });
+                break;
+
+            default:
+                window.noty({
+                    title: "خطا",
+                    text: "مشکلی پیش آمده, لطفا دوباره امتحان نمایید.",
+                    icon: "error",
+                    button: "ادامه!",
+                });
+                break;
+        }
+    }
 
 /**
  * The following block of code may be used to automatically register your
@@ -20,6 +57,8 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+
+Vue.component("vue-noty", require("./components/Noty.vue").default);
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('permission-component', require('./components/PermissionComponent.vue').default);
 /**

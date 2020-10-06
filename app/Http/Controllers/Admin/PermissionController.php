@@ -4,14 +4,27 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use SebastianBergmann\Environment\Console;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
-    public function index()
+    public function giverole(Request $request, $name)
     {
-    }
+        if (auth()->user()->can('edit-user')) {
+            if ($name !== "nothing") {
+                auth()->user()->removeRole($name);
+            }
 
+            auth()->user()->assignRole($request->name);
+            return redirect()->back();
+        } else {
+            $t = 'f';
+            $m = 'مهدودیت سطح دسترسی';
+            $l = 'users.index';
+            return view('admin.alert', compact('t', 'm', 'l'));
+        }
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -21,10 +34,14 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        // Permission::create(['name' => 'delete']);
-        // auth()->user()->givePermissionTo('edit post');
-        // return auth()->user()->getAllPermissions();
-        // auth()->user()->givePermissionTo('write');
+        if (auth()->user()->can('edit-user')) {
+            auth()->user()->givePermissionTo($request->name);
+        } else {
+            $t = 'f';
+            $m = 'مهدودیت سطح دسترسی';
+            $l = 'users.index';
+            return view('admin.alert', compact('t', 'm', 'l'));
+        }
     }
 
     /**
@@ -33,8 +50,15 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($permission)
     {
-        //
+        if (auth()->user()->can('edit-user')) {
+            auth()->user()->revokePermissionTo($permission);
+        } else {
+            $t = 'f';
+            $m = 'مهدودیت سطح دسترسی';
+            $l = 'users.index';
+            return view('admin.alert', compact('t', 'm', 'l'));
+        }
     }
 }

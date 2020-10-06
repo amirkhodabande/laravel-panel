@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
-
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -24,42 +25,16 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $user_permissions = auth()->user()->getAllPermissions();
-        return view('admin.user.edit', compact('user', 'user_permissions'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, User $user)
-    {
-        if (auth()->user()->user_type == 'boss') {
-
-            $user->update(['user_type' => $request->user_type]);
-            $t = 's';
-            $m = "تغییر سطح دسترسی";
-            $l = 'users.index';
-            return  view('admin.alert', compact('m', 'l', 't'));
+        if (auth()->user()->can('edit-user')) {
+            $role = auth()->user()->getRoleNames()->first();
+            $all_permissions = Permission::all();
+            $user_permissions = auth()->user()->getAllPermissions();
+            return view('admin.user.edit', compact('user', 'role', 'all_permissions', 'user_permissions'));
         } else {
             $t = 'f';
-            $m = "مهدودیت دسترسی شما";
+            $m = 'مهدودیت سطح دسترسی';
             $l = 'users.index';
-            return  view('admin.alert', compact('t', 'm', 'l'));
+            return view('admin.alert', compact('t', 'm', 'l'));
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

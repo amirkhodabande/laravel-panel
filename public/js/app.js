@@ -2036,7 +2036,7 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/admin/permissions/".concat(this.user_id), permission).then(function (resp) {
         window.noty({
           title: "تبریک",
-          text: "شما با موفقیت یه دسترسی به کاربر اضافه کردین.",
+          text: "شما با موفقیت یک دسترسی به کاربر اضافه کردین.",
           icon: "success",
           button: "ادامه!"
         });
@@ -50983,8 +50983,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\laragon\www\Laravel-Panel\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\laragon\www\Laravel-Panel\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\Laragon\www\Laravel-Panel\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\Laragon\www\Laravel-Panel\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

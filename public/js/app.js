@@ -2008,17 +2008,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["all_permissions", "user_permissions"],
+  props: ["user_id", "all_permissions", "user_permissions"],
   data: function data() {
     return {
       allPermissions: JSON.parse(this.all_permissions),
-      userPermissions: JSON.parse(this.user_permissions)
+      userPermissions: JSON.parse(this.user_permissions),
+      userId: this.user_id
     };
   },
   methods: {
-    removePermission: function removePermission(name, key) {
+    removePermission: function removePermission(name) {
       //   axios.get(`/admin/permissions/${id}`);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]("/admin/permissions/".concat(name)).then(function (resp) {
+      console.log(this.userId);
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]("/admin/permissions/".concat(name, "/").concat(this.userId)).then(function (resp) {
         window.noty({
           title: "تبریک",
           text: "شما با موفقیت یک دسترسی را حذف کردید.",
@@ -2031,7 +2033,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     addPermission: function addPermission(permission) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/admin/permissions", permission).then(function (resp) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/admin/permissions/".concat(this.user_id), permission).then(function (resp) {
         window.noty({
           title: "تبریک",
           text: "شما با موفقیت یه دسترسی به کاربر اضافه کردین.",
@@ -38374,7 +38376,7 @@ var render = function() {
               {
                 on: {
                   click: function($event) {
-                    return _vm.removePermission(per.name, _vm.key)
+                    return _vm.removePermission(per.name)
                   }
                 }
               },
@@ -50981,8 +50983,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\Laragon\www\Laravel-Panel\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\Laragon\www\Laravel-Panel\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\laragon\www\Laravel-Panel\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\laragon\www\Laravel-Panel\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

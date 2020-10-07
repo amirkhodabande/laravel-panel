@@ -14,7 +14,9 @@
                 $prev = "nothing";
             }
             @endphp
-                <form action="{{ route('permissions.giverole', $prev) }}" method="POST">
+            {{-- <a href="{{ route('routeName', array) }}"></a> --}}
+
+                <form action="{{ route('permissions.giverole', [$prev, $user]) }}" method="POST">
                     {{ csrf_field() }}
                     <label for="name">لطفا توجه داشته باشید که فقط کاربران ادمین میتوانند به پنل مدیریت وارد شوند.</label>
                     <button class="btn btn-info">ویرایش</button><br><br>
@@ -30,7 +32,7 @@
 
                 </form>
                 {{-- {{ dd($all_permissions) }} --}}
-                <permission-component user_permissions="{{ $user_permissions }}" all_permissions="{{ $all_permissions }}"></permission-component>
+                <permission-component user_permissions="{{ $user_permissions }}" all_permissions="{{ $all_permissions }}" user_id="{{ $user->id }}"></permission-component>
         </main>
 
         </div>

@@ -26,9 +26,9 @@ class UserController extends Controller
     public function edit(User $user)
     {
         if (auth()->user()->can('edit-user')) {
-            $role = auth()->user()->getRoleNames()->first();
+            $role = $user->getRoleNames()->first();
             $all_permissions = Permission::all();
-            $user_permissions = auth()->user()->getAllPermissions();
+            $user_permissions = $user->getAllPermissions();
             return view('admin.user.edit', compact('user', 'role', 'all_permissions', 'user_permissions'));
         } else {
             $t = 'f';

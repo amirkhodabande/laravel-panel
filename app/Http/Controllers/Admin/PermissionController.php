@@ -3,20 +3,22 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 use SebastianBergmann\Environment\Console;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
-    public function giverole(Request $request, $name)
+    public function giverole(Request $request, $name, User $user)
     {
+        // dd($name);
         if (auth()->user()->can('edit-user')) {
             if ($name !== "nothing") {
-                auth()->user()->removeRole($name);
+                $user->removeRole($name);
             }
-
-            auth()->user()->assignRole($request->name);
+            // dd($request->name);
+            $user->assignRole($request->name);
             return redirect()->back();
         } else {
             $t = 'f';
@@ -32,10 +34,10 @@ class PermissionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, User $user)
     {
         if (auth()->user()->can('edit-user')) {
-            auth()->user()->givePermissionTo($request->name);
+            $user->givePermissionTo($request->name);
         } else {
             $t = 'f';
             $m = 'مهدودیت سطح دسترسی';
@@ -50,10 +52,11 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($permission)
+    public function destroy($permission, User $user)
     {
+        // dd(auth()->user());
         if (auth()->user()->can('edit-user')) {
-            auth()->user()->revokePermissionTo($permission);
+            $user->revokePermissionTo($permission);
         } else {
             $t = 'f';
             $m = 'مهدودیت سطح دسترسی';

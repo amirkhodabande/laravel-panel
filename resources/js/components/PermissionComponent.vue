@@ -7,7 +7,7 @@
                 <div class="users-containter">
                         <section v-for="per in userPermissions" :key="userPermissions.indexOf(per)"
                             class="users-p">
-                            <button @click="removePermission(per.name, key)"><i class="icon-remove"></i></button>
+                            <button @click="removePermission(per.name)"><i class="icon-remove"></i></button>
                             <p>{{ per.name }}</p>
                         </section>
                 </div>
@@ -33,18 +33,20 @@
 <script>
 import axios from "axios";
 export default {
-      props: ["all_permissions", "user_permissions"],
+      props: ["user_id", "all_permissions", "user_permissions"],
       data() {
             return {
                   allPermissions: JSON.parse(this.all_permissions),
                   userPermissions: JSON.parse(this.user_permissions),
+                  userId: this.user_id,
             };
       },
 
       methods: {
-            removePermission(name, key) {
+            removePermission(name) {
                   //   axios.get(`/admin/permissions/${id}`);
-                  axios.delete(`/admin/permissions/${name}`)
+                  console.log(this.userId);
+                  axios.delete(`/admin/permissions/${name}/${this.userId}`)
                         .then((resp) => {
                               window.noty({
                                     title: "تبریک",
@@ -60,7 +62,7 @@ export default {
                         });
             },
             addPermission(permission) {
-                  axios.post(`/admin/permissions`, permission)
+                  axios.post(`/admin/permissions/${this.user_id}`, permission)
                         .then((resp) => {
                               window.noty({
                                     title: "تبریک",

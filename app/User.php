@@ -50,7 +50,9 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->user_type == 'boss' || $this->user_type == 'admin' || $this->user_type == 'reporter';
+        return true;
+//         if you want use this please edit the database and add user_type to it...
+//         return $this->user_type == 'boss' || $this->user_type == 'admin' || $this->user_type == 'reporter';
     }
 
     public static function search($data)
